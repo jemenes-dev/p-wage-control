@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service //Se pone esto para que Spring reconozca que esto es un servicio para poder inyectarlo en el controlador.
+@Service
 public class PersonaServiceImpl implements PersonaService {
 
     @Autowired

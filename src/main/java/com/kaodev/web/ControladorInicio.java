@@ -61,13 +61,3 @@ public class ControladorInicio {
         return "redirect:/";
     }
 }
-
-/**
- * [Apuntes]
- * Como ves no hemos tenido que instanciar nada. Spring lo hace automaticamente al importar Model de Spring.
- * Para acceder a valores del properties utiliza @Value (de spring) Y entre ${ValorDeProperties} Debajo se pone la
- * variable para guardarlo.
- *
- * Al hacer el public String agregar(Persona persona) como puedes observar no se crea un objeto con "new"
- * Spring instanciará automaticamente un objeto persona si lo encuentra o creará uno nuevo si no.
- */
