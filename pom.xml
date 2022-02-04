@@ -9,13 +9,16 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kaodev</groupId>
-    <artifactId>ControlClentes</artifactId>
+    <artifactId>ControlSalarios</artifactId>
     <version>1.0</version>
-    <name>ControlClientes</name>
-    <description>HolaMundo con Spring</description>
+    <name>ControlSalarios</name>
+    <description>ControlSalarios</description>
 
     <properties>
-        <java.version>9</java.version>
+        <java.version>13</java.version>
+        <maven.compiler.release>13</maven.compiler.release>
+        <maven.compiler.target>13</maven.compiler.target>
+        <maven.compiler.source>13</maven.compiler.source>
     </properties>
 
     <dependencies>
