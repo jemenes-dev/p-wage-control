@@ -4,17 +4,22 @@ import javax.validation.Valid;
 
 import com.kaodev.domain.Persona;
 import com.kaodev.servicio.PersonaService;
+import com.kaodev.servicio.UsuarioService;
+import com.kaodev.util.MockData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 @Slf4j
@@ -23,8 +28,41 @@ public class ControladorInicio {
     @Autowired
     private PersonaService personaService;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
+    private List<Persona> mockList = MockData.getMockData();
+    private boolean isRunning = false;
+
     @GetMapping("/")
     public String inicio(Model model, @AuthenticationPrincipal User user){
+        if (user.getUsername().equals("admin")) {
+           if (!isRunning) {
+               isRunning = true;
+               final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+               final Runnable runnable = new Runnable() {
+                   int countdown = 20;
+                   @Override
+                   public void run() {
+                       countdown--;
+                       if (countdown < 0) {
+                           var personas = personaService.listarPersonas();
+                           if (personas.size() > 0) {
+                               for(var p: personas){
+                                   personaService.eliminar(p);
+                               }
+                           }
+                           for(var p: mockList){
+                               personaService.guardar(p);
+                           }
+                           isRunning = false;
+                           scheduler.shutdown();
+                       }
+                   }
+               };
+               scheduler.scheduleAtFixedRate(runnable,0,1, TimeUnit.MINUTES);
+           }
+        }
         var personas = personaService.listarPersonas();
         model.addAttribute("personas", personas);
         var saldoTotal = 0D;
@@ -61,20 +99,5 @@ public class ControladorInicio {
     public String eliminar(Persona persona){
         personaService.eliminar(persona);
         return "redirect:/";
-    }
-    //TODO Dao para el user generado, acceso, poner temporizador, hacer el borrado de tablas.
-    @RequestMapping("/usergen")
-    public String userGen(Model model) {
-        System.out.println("SE HA CONECTAO EL BOTON OLEEEE");
-        double userValue = Math.random();
-        double passValue = Math.random();
-        String user = String.valueOf(userValue);
-        String pass = String.valueOf(passValue);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user = encoder.encode(user);
-        pass = encoder.encode(pass);
-        model.addAttribute("user", user);
-        model.addAttribute("pass", pass);
-        return "login";
     }
 }

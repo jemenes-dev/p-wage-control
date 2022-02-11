@@ -20,13 +20,15 @@
                 <div class="d-flex flex-row justify-content-sm-start">
                     <div class="card" style="width: 20rem;">
                         <div class="card-header">
-                            <h5>Generate User</h5>
+                            <h5>[[#{login.titulo}]]</h5>
                         </div>
                         <div class="card-body d-flex flex-column justify-content-between">
                             <div>
-                                Pulsa para generar un administrador y contraseña para acceder a los datos. Estos se borrarán en 40 minutos.
+                                [[#{login.user}]]<br/>
+                                [[#{login.pass}]]<br/><br/>
+                                [[#{login.info}]]
                             </div>
-                            <a th:href="@{/usergen}" class="btn btn-primary btn-block">Generate User/Pass</a>
+
                         </div>
                     </div>
                     <div class="col-md-6 mx-4">
