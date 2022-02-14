@@ -17,7 +17,7 @@
 
         <section id="login">
             <div class="container">
-                <div class="d-flex flex-row justify-content-sm-start">
+                <div class="d-flex flex-row justify-content-sm-start pb-3">
                     <div class="card" style="width: 20rem;">
                         <div class="card-header">
                             <h5>[[#{login.titulo}]]</h5>
@@ -50,6 +50,14 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <a class="btn btn-outline-primary d-block" data-toggle="collapse" href="#info" role="button" aria-expanded="false" aria-controls="info">
+                    [[#{info.button}]]
+                </a>
+                <div class="collapse" id="info">
+                    <div class="card card-body">
+                        [[#{info.description}]]<a href="https://github.com/jemenes-dev/p-wage-control">[[#{info.github}]]</a>
                     </div>
                 </div>
             </div>
